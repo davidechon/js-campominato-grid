@@ -12,49 +12,62 @@
 // 2. Creare la griglia difficoltà 1 con numeri generati da 1 a 100
 // 3. Creare la griglia difficoltà 2 con numeri generati da 1 a 81
 // 4. Creare la griglia difficoltà 3 con numeri generati da 1 a 49
-// 5. Ogni cella è cliccabile e cambia colore fisso
+// 5. Ogni cella è cliccabile e cambia colore
 
 /////////////////////////////////////////////////////////////////////////
 
-// 2. Creare la griglia difficoltà 1 con numeri generati da 1 a 100
-// Genero la tabella numeri 1-100
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min);
+
+function setLevel(event) {
+  // console.log(this);
+  // console.log(level);
+  // event.preventDefault(); // controlli sui valori
+  const level = document.getElementById("level").value;
+  console.log("livello selezionato: ", level);
+  let numSquare;
+  switch(level){
+    case '1':
+    default:
+      numSquare = 100;
+      break;
+    case '2':
+      numSquare = 81;
+      break;
+    case '3':
+      numSquare = 49;
+      break;
+  }
+  let squareXSide = Math.sqrt(numSquare);
+  console.log("numero di celle per lato: ", squareXSide);
+  generaGriglia(numSquare, squareXSide)
 }
-console.log(getRandomInt(1, 100));
-
-// Genero la griglia numeri
-function stampaGriglia(){
-  const colNum = 64;
-  const colXRow = 8;
-
-  let app = document.getElementById("app");
-  app.innerHTML= "";
-  let row = document.createElement("div");
-  row.setAttribute("class", "row");
-  let cols = creaCol(colNum);
-  console.log(cols);
-  row.innerHTML = cols;
+function generaGriglia(numSquare, squareXSide){
+  console.log("numero di celle totali: ", numSquare);
+  const app = document.getElementById('app');
+  app.innerHTML = "";
+  let row = document.createElement('div');
+  row.setAttribute('class', "gridRow");
+  for(let i = 1; i <= numSquare; i++) {
+    const square = generaCella(i, squareXSide);
+    row.append(square);
+  }
   app.append(row);
 }
-
-function creaCol(numCol) {
-  let cols = "";
-  let numUsati = [];
-  let index = 0;
-
-  while (numUsati.length <=numCols && index !==400) {
-    let numCell = getRandomInt(1, numCols);
-    if (!numUsati.includes(numCell)) {
-      cols += `
-      <div class="col">${numCell}</div>
-      `;
-    }
-  }
-  return cols;
+function generaCella(numSquare, squareXSide){
+  let square = document.createElement('div');
+  square.setAttribute('class', "box");
+  square.style.width = `calc(100% / ${squareXSide})`;
+  square.style.heigth = `calc(100% / ${squareXSide})`;
+  square.classList.add('pointer');
+  square.innerHTML = `<span>${numSquare}</span>`;
+  square.addEventListener('click', coloraCella);
+  return square;
 }
-document.getElementById("generate").addEventListener("click", stampaGriglia);
-
+function coloraCella(){
+  // console.log(this);
+  this.style.backgroundColor = "#6495ed";
+  this.classList.remove("pointer");
+  this.removeEventListener('click', coloraCella);
+}
+// document.getElementById("level").addEventListener("change", setLevel);
+document.getElementById("play").addEventListener("click", setLevel);
 
