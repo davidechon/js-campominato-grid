@@ -24,15 +24,15 @@ function setLevel(event) {
   const level = document.getElementById("level").value;
   console.log("livello selezionato: ", level);
   let numSquare;
-  switch(level){
-    case '1':
+  switch (level) {
+    case "1":
     default:
       numSquare = 100;
       break;
-    case '2':
+    case "2":
       numSquare = 81;
       break;
-    case '3':
+    case "3":
       numSquare = 49;
       break;
   }
