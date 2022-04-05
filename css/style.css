@@ -31,6 +31,7 @@ main{
 .box{
   border: 1px solid white;
 }
+
 .pointer{
   cursor: pointer;
 }
